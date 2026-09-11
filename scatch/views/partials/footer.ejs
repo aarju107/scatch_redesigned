@@ -1,0 +1,88 @@
+    <footer class="mt-auto border-t border-line bg-ink text-paper/80">
+        <div class="max-w-7xl mx-auto px-6 md:px-10 lg:px-16 py-14 grid grid-cols-1 md:grid-cols-4 gap-10">
+            <div class="md:col-span-2">
+                <div class="flex items-center gap-2 mb-4">
+                    <span class="w-8 h-8 rounded-full bg-paper/10 flex items-center justify-center">
+                        <i class="ri-shopping-bag-3-fill text-paper"></i>
+                    </span>
+                    <span class="font-heading text-xl text-paper">Scatch<span class="text-accent">.</span></span>
+                </div>
+                <p class="text-sm leading-relaxed max-w-sm text-paper/60">
+                    Thoughtfully made bags and travel goods, built for everyday use.
+                    Durable materials, clean design, no unnecessary noise.
+                </p>
+            </div>
+            <div>
+                <h4 class="text-paper text-sm font-semibold tracking-wide uppercase mb-4">Shop</h4>
+                <ul class="space-y-2.5 text-sm text-paper/60">
+                    <li><a href="/shop" class="hover:text-paper transition-colors duration-200">All products</a></li>
+                    <li><a href="/cart" class="hover:text-paper transition-colors duration-200">Your cart</a></li>
+                    <li><a href="/" class="hover:text-paper transition-colors duration-200">Home</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-paper text-sm font-semibold tracking-wide uppercase mb-4">Company</h4>
+                <ul class="space-y-2.5 text-sm text-paper/60">
+                    <li><a href="/#auth" class="hover:text-paper transition-colors duration-200">Create account</a></li>
+                    <li><a href="/owners/login" class="hover:text-paper transition-colors duration-200">Admin login</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="border-t border-paper/10 py-5 px-6 md:px-10 lg:px-16 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-paper/40">
+            <span>© <%= new Date().getFullYear() %> Scatch. All rights reserved.</span>
+            <span>Made with care for everyday carry.</span>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile nav toggle
+        (function () {
+            var btn = document.getElementById('mobileMenuBtn');
+            var menu = document.getElementById('mobileMenu');
+            var icon = document.getElementById('mobileMenuIcon');
+            if (btn && menu) {
+                btn.addEventListener('click', function () {
+                    menu.classList.toggle('open');
+                    if (icon) {
+                        icon.classList.toggle('ri-menu-3-line');
+                        icon.classList.toggle('ri-close-line');
+                    }
+                });
+            }
+        })();
+
+        // Auto-dismiss flash toasts
+        (function () {
+            document.querySelectorAll('[data-flash]').forEach(function (el) {
+                setTimeout(function () {
+                    el.style.transition = 'opacity .4s ease, transform .4s ease';
+                    el.style.opacity = '0';
+                    el.style.transform = 'translate(-50%, -10px)';
+                    setTimeout(function () { el.remove(); }, 400);
+                }, 3200);
+            });
+        })();
+
+        // Generic tab toggle: elements with [data-tab-btn][data-tab-target] show/hide
+        // elements sharing the same [data-tab-group] via [data-tab-panel].
+        (function () {
+            document.querySelectorAll('[data-tab-btn]').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    var group = btn.getAttribute('data-tab-group');
+                    var target = btn.getAttribute('data-tab-target');
+
+                    document.querySelectorAll('[data-tab-group="' + group + '"][data-tab-btn]').forEach(function (b) {
+                        b.classList.remove('is-active');
+                    });
+                    btn.classList.add('is-active');
+
+                    document.querySelectorAll('[data-tab-group="' + group + '"][data-tab-panel]').forEach(function (p) {
+                        p.classList.toggle('hidden', p.getAttribute('data-tab-panel') !== target);
+                    });
+                });
+            });
+        })();
+    </script>
+</body>
+
+</html>

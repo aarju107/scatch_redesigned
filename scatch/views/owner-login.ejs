@@ -1,0 +1,51 @@
+<%- include('./partials/header', { loggedin: false, variant: 'owner' }) %>
+
+<% if (typeof error !== 'undefined' && error.length > 0) { %>
+    <div data-flash class="fixed top-24 left-1/2 -translate-x-1/2 z-50 animate-toast">
+        <div class="flex items-center gap-2 px-4 py-3 rounded-xl bg-red-600 text-white text-sm shadow-lift">
+            <i class="ri-error-warning-line"></i>
+            <span><%= error %></span>
+        </div>
+    </div>
+<% } %>
+
+<main class="flex-1 flex items-center justify-center px-6 py-16">
+    <div class="w-full max-w-sm animate-fade-up">
+        <div class="text-center mb-8">
+            <span class="inline-flex w-14 h-14 rounded-full bg-ink text-paper items-center justify-center text-2xl mb-4">
+                <i class="ri-shield-user-line"></i>
+            </span>
+            <h1 class="font-heading text-2xl text-ink">Admin Access</h1>
+            <p class="text-sm text-muted mt-1">Sign in to manage the Scatch catalog.</p>
+        </div>
+
+        <div class="bg-card border border-line rounded-3xl shadow-card p-7 sm:p-8">
+            <form action="/owners/login" method="post" class="space-y-4">
+                <div class="relative">
+                    <i class="ri-mail-line absolute left-4 top-1/2 -translate-y-1/2 text-muted"></i>
+                    <input
+                        class="w-full pl-11 pr-4 py-3 bg-paper border border-line rounded-xl text-sm focus-ring transition-shadow duration-200"
+                        type="email" placeholder="Email" name="email" required>
+                </div>
+                <div class="relative">
+                    <i class="ri-lock-line absolute left-4 top-1/2 -translate-y-1/2 text-muted"></i>
+                    <input
+                        class="w-full pl-11 pr-4 py-3 bg-paper border border-line rounded-xl text-sm focus-ring transition-shadow duration-200"
+                        type="password" placeholder="Password" name="password" required>
+                </div>
+                <button type="submit"
+                    class="w-full bg-ink text-paper py-3.5 rounded-xl font-medium hover:bg-accent transition-colors duration-300 mt-2">
+                    Login
+                </button>
+            </form>
+        </div>
+
+        <p class="text-center text-sm text-muted mt-6">
+            <a href="/" class="hover:text-ink transition-colors duration-200">
+                <i class="ri-arrow-left-line"></i> Back to store
+            </a>
+        </p>
+    </div>
+</main>
+
+<%- include('./partials/footer') %>

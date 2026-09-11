@@ -1,0 +1,92 @@
+<%- include('./partials/header', { variant: 'owner' }) %>
+
+<% if (typeof success !== 'undefined' && success.length > 0) { %>
+    <div data-flash class="fixed top-24 left-1/2 -translate-x-1/2 z-50 animate-toast">
+        <div class="flex items-center gap-2 px-4 py-3 rounded-xl bg-ink text-paper text-sm shadow-lift">
+            <i class="ri-checkbox-circle-line text-accent"></i>
+            <span><%= success %></span>
+        </div>
+    </div>
+<% } %>
+
+<main class="flex-1">
+    <div class="max-w-7xl mx-auto px-6 md:px-10 lg:px-16 py-10 flex flex-col lg:flex-row gap-10">
+
+        <!-- Sidebar -->
+        <aside class="lg:w-60 shrink-0">
+            <div class="lg:sticky lg:top-28">
+                <h3 class="text-xs uppercase tracking-widest text-muted font-semibold mb-4">Admin panel</h3>
+                <nav class="flex flex-col gap-1">
+                    <a href="/owners/admin" class="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm text-ink/70 hover:bg-card transition-colors duration-200">
+                        <i class="ri-grid-line"></i> All products
+                    </a>
+                    <a href="/owners/admin" class="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-medium bg-card border border-line text-ink">
+                        <i class="ri-add-circle-line"></i> Create new product
+                    </a>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Form -->
+        <div class="flex-1 max-w-2xl animate-fade-up">
+            <h1 class="font-heading text-3xl text-ink mb-1">Create New Product</h1>
+            <p class="text-sm text-muted mb-8">Add a new item to the Scatch catalog.</p>
+
+            <div class="bg-card border border-line rounded-3xl shadow-soft p-6 sm:p-8">
+                <form action="/products/create" method="post" enctype="multipart/form-data" class="space-y-8">
+
+                    <div>
+                        <h3 class="text-sm font-semibold uppercase tracking-wide text-ink mb-4">Product details</h3>
+
+                        <label class="flex flex-col items-center justify-center gap-2 border-2 border-dashed border-line rounded-2xl py-8 mb-5 cursor-pointer hover:border-accent transition-colors duration-200 bg-paper">
+                            <i class="ri-upload-cloud-2-line text-3xl text-muted"></i>
+                            <span class="text-sm text-muted" data-filename>Click to select a product image</span>
+                            <input name="image" type="file" class="hidden" id="productImageInput">
+                        </label>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <input name="name" type="text" placeholder="Product name"
+                                class="border border-line bg-paper rounded-xl px-4 py-3 text-sm focus-ring w-full">
+                            <input name="price" type="text" placeholder="Product price (₹)"
+                                class="border border-line bg-paper rounded-xl px-4 py-3 text-sm focus-ring w-full">
+                            <input name="discount" type="text" placeholder="Discount (₹)"
+                                class="border border-line bg-paper rounded-xl px-4 py-3 text-sm focus-ring w-full sm:col-span-2">
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-sm font-semibold uppercase tracking-wide text-ink mb-4">Panel details</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <input name="bgcolor" type="text" placeholder="Background color"
+                                class="border border-line bg-paper rounded-xl px-4 py-3 text-sm focus-ring w-full">
+                            <input name="panelcolor" type="text" placeholder="Panel color"
+                                class="border border-line bg-paper rounded-xl px-4 py-3 text-sm focus-ring w-full">
+                            <input name="textcolor" type="text" placeholder="Text color"
+                                class="border border-line bg-paper rounded-xl px-4 py-3 text-sm focus-ring w-full">
+                        </div>
+                        <p class="text-xs text-muted mt-2">Accepts any valid CSS color (e.g. <code>#1a1a1a</code> or <code>tomato</code>).</p>
+                    </div>
+
+                    <button type="submit"
+                        class="inline-flex items-center gap-2 bg-ink text-paper px-6 py-3.5 rounded-full font-medium hover:bg-accent transition-colors duration-300">
+                        <i class="ri-add-line"></i> Create new product
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    (function () {
+        var input = document.getElementById('productImageInput');
+        var text = input ? input.closest('label').querySelector('[data-filename]') : null;
+        if (input && text) {
+            input.addEventListener('change', function () {
+                text.textContent = (input.files && input.files[0]) ? input.files[0].name : 'Click to select a product image';
+            });
+        }
+    })();
+</script>
+
+<%- include('./partials/footer') %>

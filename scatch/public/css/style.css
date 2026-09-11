@@ -1,0 +1,106 @@
+/* Scatch — design-system helpers
+   Tailwind (Play CDN) handles layout/spacing/color utilities.
+   This file only holds things utility classes can't: keyframes,
+   scrollbar theming, and a couple of small state helpers. */
+
+:root {
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #d8cdbb transparent;
+}
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #d8cdbb; border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: #c3b49b; }
+
+::selection { background: #B8562D; color: #fff; }
+
+/* ---------- entrance animations ---------- */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-up {
+  animation: fadeUp .7s var(--ease-out) both;
+}
+.delay-1 { animation-delay: .08s; }
+.delay-2 { animation-delay: .16s; }
+.delay-3 { animation-delay: .24s; }
+.delay-4 { animation-delay: .32s; }
+.delay-5 { animation-delay: .40s; }
+.delay-6 { animation-delay: .48s; }
+.delay-7 { animation-delay: .56s; }
+.delay-8 { animation-delay: .64s; }
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.animate-fade { animation: fadeIn .5s ease both; }
+
+@keyframes floatY {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-14px); }
+}
+.animate-float      { animation: floatY 6s ease-in-out infinite; }
+.animate-float-slow { animation: floatY 8s ease-in-out infinite; }
+.animate-float-delay { animation: floatY 7s ease-in-out infinite; animation-delay: 1.2s; }
+
+@keyframes toastIn {
+  from { opacity: 0; transform: translate(-50%, -12px); }
+  to   { opacity: 1; transform: translate(-50%, 0); }
+}
+.animate-toast { animation: toastIn .35s var(--ease-out) both; }
+
+@keyframes spin-slow { to { transform: rotate(360deg); } }
+.animate-spin-slow { animation: spin-slow 12s linear infinite; }
+
+/* ---------- product image zoom ---------- */
+.product-card .product-img {
+  transition: transform .7s var(--ease-out);
+}
+.product-card:hover .product-img {
+  transform: scale(1.07);
+}
+
+/* ---------- generic focus ring (matches accent) ---------- */
+.focus-ring:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(184, 86, 45, 0.18);
+  border-color: #B8562D;
+}
+
+/* ---------- mobile nav ---------- */
+.mobile-menu {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .35s var(--ease-out);
+}
+.mobile-menu.open {
+  max-height: 24rem;
+}
+
+/* ---------- skeleton shimmer (used sparingly) ---------- */
+@keyframes shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, #EFEAE1 25%, #F6F2EA 37%, #EFEAE1 63%);
+  background-size: 800px 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+
+/* ---------- auth tabs (index page) ---------- */
+.tab-btn { color: #8B8377; }
+.tab-btn.is-active { background: #17140F; color: #FAF7F1; }
+
+img { max-width: 100%; }
+body { -webkit-tap-highlight-color: transparent; }

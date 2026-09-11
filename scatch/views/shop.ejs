@@ -1,0 +1,97 @@
+<%- include('./partials/header') %>
+
+<% if (typeof success !== 'undefined' && success.length > 0) { %>
+    <div data-flash class="fixed top-24 left-1/2 -translate-x-1/2 z-50 animate-toast">
+        <div class="flex items-center gap-2 px-4 py-3 rounded-xl bg-ink text-paper text-sm shadow-lift">
+            <i class="ri-checkbox-circle-line text-accent"></i>
+            <span><%= success %></span>
+        </div>
+    </div>
+<% } %>
+
+<main class="flex-1">
+
+    <div class="bg-card border-b border-line">
+        <div class="max-w-7xl mx-auto px-6 md:px-10 lg:px-16 py-10 animate-fade-up">
+            <span class="text-xs uppercase tracking-[0.2em] text-accent font-semibold">The collection</span>
+            <h1 class="font-heading text-3xl sm:text-4xl text-ink mt-2">All Products</h1>
+            <p class="text-muted text-sm mt-2"><%= products.length %> item<%= products.length === 1 ? '' : 's' %> available</p>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-6 md:px-10 lg:px-16 py-10 flex flex-col lg:flex-row gap-10">
+
+        <!-- Sidebar / sort -->
+        <aside class="lg:w-56 shrink-0">
+            <div class="lg:sticky lg:top-28">
+                <h3 class="text-sm font-semibold uppercase tracking-wide text-ink mb-3">Sort by</h3>
+                <form action="/shop" method="get">
+                    <select name="sortby" onchange="this.form.submit()"
+                        class="w-full border border-line bg-card rounded-xl px-3 py-2.5 text-sm focus-ring cursor-pointer">
+                        <option value="popular">Popular</option>
+                        <option value="newest">Newest</option>
+                    </select>
+                </form>
+            </div>
+        </aside>
+
+        <!-- Product grid -->
+        <div class="flex-1">
+            <% if (products.length === 0) { %>
+                <div class="flex flex-col items-center justify-center text-center py-24 border border-dashed border-line rounded-2xl">
+                    <span class="w-16 h-16 rounded-full bg-paper border border-line flex items-center justify-center text-2xl text-muted mb-4">
+                        <i class="ri-shopping-bag-3-line"></i>
+                    </span>
+                    <h3 class="font-heading text-xl text-ink mb-1">No products yet</h3>
+                    <p class="text-sm text-muted">Check back soon — new arrivals are on the way.</p>
+                </div>
+            <% } else { %>
+                <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                    <% products.forEach(function (product, i) { %>
+                        <%
+                            var price = Number(product.price) || 0;
+                            var discount = Number(product.discount) || 0;
+                            var finalPrice = price - discount;
+                            var pct = (discount > 0 && price > 0) ? Math.round((discount / price) * 100) : 0;
+                        %>
+                        <div class="product-card group bg-card border border-line rounded-2xl overflow-hidden hover:shadow-card transition-shadow duration-300 animate-fade-up"
+                             style="animation-delay: <%= Math.min(i, 8) * 0.06 %>s">
+
+                            <div class="relative w-full h-60 sm:h-64 bg-paper overflow-hidden">
+                                <% if (pct > 0) { %>
+                                    <span class="absolute top-3 left-3 z-10 bg-accent text-white text-xs font-semibold px-2.5 py-1 rounded-full">
+                                        <%= pct %>% OFF
+                                    </span>
+                                <% } %>
+                                <% if (product.image) { %>
+                                    <img class="product-img w-full h-full object-cover" src="<%= product.image %>" alt="<%= product.name %>">
+                                <% } else { %>
+                                    <div class="w-full h-full flex items-center justify-center text-muted text-3xl">
+                                        <i class="ri-image-line"></i>
+                                    </div>
+                                <% } %>
+                            </div>
+
+                            <div class="p-5">
+                                <h3 class="font-medium text-ink truncate"><%= product.name %></h3>
+                                <div class="flex items-center gap-2 mt-1.5 mb-4">
+                                    <span class="text-lg font-semibold text-ink">₹<%= finalPrice %></span>
+                                    <% if (discount > 0) { %>
+                                        <span class="text-sm text-muted line-through">₹<%= price %></span>
+                                    <% } %>
+                                </div>
+
+                                <a href="/addtocart/<%= product._id %>"
+                                   class="w-full inline-flex items-center justify-center gap-2 bg-ink text-paper text-sm font-medium py-2.5 rounded-full hover:bg-accent transition-colors duration-300">
+                                    <i class="ri-shopping-bag-3-line"></i> Add to cart
+                                </a>
+                            </div>
+                        </div>
+                    <% }) %>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</main>
+
+<%- include('./partials/footer') %>
